@@ -13,16 +13,6 @@ const TYPING_MS = 1600;
 const VOICE_CHAR_MS = 110;
 const VOICE_REMIND_MS = 5000;
 const DEFAULT_HINT = '請點亮起來的地方喔！';
-const READ_MS_PER_CHAR = 150;
-const READ_MIN_MS = 5000;
-const READ_MAX_MS = 15000;
-
-function readingTime(message: ChatMessage | undefined): number {
-  if (message?.role !== 'ai') return READ_MIN_MS;
-  const { headline = '', body = [], cards = [] } = message.reply;
-  const chars = [headline, ...body, ...cards.map((c) => c.place)].join('').length;
-  return Math.min(READ_MAX_MS, Math.max(READ_MIN_MS, chars * READ_MS_PER_CHAR));
-}
 
 interface Props {
   scenario: Scenario;
@@ -45,7 +35,6 @@ function spotOf(step: Step): Spot | null {
       return 'speaker';
     case 'voice':
       return 'stop';
-    case 'read':
     case 'done':
       return null;
     default:
@@ -73,7 +62,7 @@ function Run({ scenario, onExit, onComplete, onReplay }: Props & { onReplay: () 
   const spot = busy ? null : spotOf(step);
   const resultTip = !busy && step.type === 'tap' ? step.resultTip : undefined;
   const tip =
-    step.type === 'done' || step.type === 'read'
+    step.type === 'done'
       ? ''
       : nudges > 0
         ? (step.hint ?? DEFAULT_HINT)
@@ -153,14 +142,6 @@ function Run({ scenario, onExit, onComplete, onReplay }: Props & { onReplay: () 
   }, [step.type, listening, nudges]);
 
   useEffect(() => {
-    if (step.type !== 'read') return;
-    const id = window.setTimeout(advance, readingTime(messages[messages.length - 1]));
-    return () => clearTimeout(id);
-    // 只在進入閱讀步驟時計時一次。
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [step.id]);
-
-  useEffect(() => {
     if (step.type === 'done') onComplete(scenario.id);
   }, [step.type, scenario.id, onComplete]);
 
@@ -180,65 +161,60 @@ function Run({ scenario, onExit, onComplete, onReplay }: Props & { onReplay: () 
       : undefined;
 
   return (
-    <div ref={rootRef} className="app" onClick={onRootClick}>
-      <ChatMock
-        messages={messages}
-        waiting={waiting}
-        draft={draft}
-        typing={typing}
-        recording={step.type === 'voice' && listening}
-        attachment={attachment}
-        spot={spot}
-        toolTip={spot === 'speaker' || spot === 'like' ? tip : undefined}
-        resultTip={resultTip}
-        speakerPlaying={audio.playing}
-        nudges={nudges}
-      >
-        {promptOptions && step.type === 'prompt' && (
-          <ChoicePanel
+    <div className="screen">
+      <div ref={rootRef} className="app" onClick={onRootClick}>
+        <ChatMock
+          messages={messages}
+          waiting={waiting}
+          draft={draft}
+          typing={typing}
+          recording={step.type === 'voice' && listening}
+          attachment={attachment}
+          spot={spot}
+          toolTip={spot === 'speaker' || spot === 'like' ? tip : undefined}
+          resultTip={resultTip}
+          speakerPlaying={audio.playing}
+          nudges={nudges}
+        >
+          {promptOptions && step.type === 'prompt' && (
+            <ChoicePanel
+              tip={tip}
+              nudges={nudges}
+              options={promptOptions}
+              onPick={(o) => {
+                pickOption(step.pick, o);
+                setDraft(o.label);
+                advance();
+              }}
+            />
+          )}
+          {step.type === 'voice' && <VoicePanel phrase={step.phrase} />}
+        </ChatMock>
+
+        <Spotlight spot={spot} tip={tip} nudges={nudges} showResult={Boolean(resultTip)} />
+
+        {step.type === 'attach' && (
+          <UploadSheet
             tip={tip}
             nudges={nudges}
-            options={promptOptions}
+            options={step.options}
             onPick={(o) => {
               pickOption(step.pick, o);
-              setDraft(o.label);
+              setAttachment(o.image);
               advance();
             }}
           />
         )}
-        {step.type === 'voice' && (
-          <VoicePanel
-            tip={tip}
-            phrase={step.phrase}
-            listening={listening}
-            nudges={nudges}
+
+        {step.type === 'done' && (
+          <CompletionCard
+            title={step.title}
+            points={step.points}
+            onReplay={onReplay}
+            onExit={onExit}
           />
         )}
-      </ChatMock>
-
-      <Spotlight spot={spot} tip={tip} nudges={nudges} showResult={Boolean(resultTip)} />
-
-      {step.type === 'attach' && (
-        <UploadSheet
-          tip={tip}
-          nudges={nudges}
-          options={step.options}
-          onPick={(o) => {
-            pickOption(step.pick, o);
-            setAttachment(o.image);
-            advance();
-          }}
-        />
-      )}
-
-      {step.type === 'done' && (
-        <CompletionCard
-          title={step.title}
-          points={step.points}
-          onReplay={onReplay}
-          onExit={onExit}
-        />
-      )}
+      </div>
     </div>
   );
 }

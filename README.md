@@ -10,6 +10,15 @@ npm run dev     # 本機預覽
 npm run build   # 型別檢查、情境資料檢查、打包到 dist/
 ```
 
+## 設計
+
+介面沿用台北通 App（`townpass-2026`）的設計系統，不另外發明一套：
+
+- `src/styles/tokens.css`：色票與字重對應 `lib/util/tp_colors.dart`、`tp_text_styles.dart`；圓角與陰影對應 `tp_button`、`tp_card`、`tp_bottom_sheet`；動態時長與 easing 用 Material 3 的標準值。
+- 頁面不自己畫 AppBar：這個前端是以 webview 開在 App 裡，上方那條由 `TPWebView` 的 `TPAppBar` 提供（標題、webview 上一頁、關閉）。版面比照 TP 的訊息列表（灰底、細分隔線），底部面板比照 `TPBottomSheet`。
+- 長者版只放大字級（內文 20px、說明 16px，字重仍用 400/600），並在需要對比的地方改用 `primary-600`／`primary-700`：`primary-500` 配白字只有 2.2:1。
+- 換步驟時光點會滑向新目標、遮罩淡出而不是直接抽掉（`src/modules/Spotlight.tsx`）；`prefers-reduced-motion` 時直接到位。
+
 ## 部署
 
 這個 repo 就是網站根目錄（`index.html` 在根層），部署時不需要再指定子目錄。在 Vercel 建專案時 Root Directory 留預設 `./`、框架選 Vite。部署後把網址填入 app 的 `MyServiceItemId.aiVillage`。

@@ -1,11 +1,13 @@
 import type { ReactNode } from 'react';
 import type { IconName } from '../types';
 
-type Name = IconName | 'plus' | 'send' | 'speaker' | 'check' | 'copy' | 'like' | 'stop';
+type Name = IconName | 'plus' | 'send' | 'speaker' | 'check' | 'copy' | 'like' | 'stop' | 'go';
 
 const paths: Record<Name, ReactNode> = {
   plus: <path d="M12 5v14M5 12h14" />,
   send: <path d="M12 19V5M6 11l6-6 6 6" />,
+  // 對應 Taipei Pass 的 icon_expand。
+  go: <path d="M9 6l6 6-6 6" />,
   mic: (
     <>
       <rect x="9" y="3" width="6" height="11" rx="3" />

@@ -1,26 +1,18 @@
 interface Props {
-  tip: string;
+  /** 使用者要照著唸的句子 */
   phrase: string;
-  listening: boolean;
-  nudges: number;
 }
 
-/** 模擬收音畫面：波形只是動畫，手機沒有真的在聽。停止鍵在輸入列的麥克風位置。 */
-export function VoicePanel({ tip, phrase, listening, nudges }: Props) {
-  if (!listening) return null;
+/**
+ * 錄音的稿子。收音動畫在輸入框裡，說明文字改用 spotlight 的對話框，
+ * 跟其他步驟一致；這張卡只負責把要唸的話亮給使用者看。
+ */
+export function VoicePanel({ phrase }: Props) {
   return (
     <div className="voice-panel" data-spot="stop">
-      <p key={nudges} className={nudges > 0 ? 'inline-tip is-hint' : 'inline-tip'} aria-live="polite">
-        {tip}
-      </p>
-      <div key={`card-${nudges}`} className={`voice-card${nudges > 0 ? ' is-nudged-card' : ''}`}>
+      <p className="voice-card">
         <strong>「{phrase}」</strong>
-      </div>
-      <div className="wave" aria-hidden="true">
-        {Array.from({ length: 9 }, (_, i) => (
-          <i key={i} style={{ animationDelay: `${i * 0.09}s` }} />
-        ))}
-      </div>
+      </p>
     </div>
   );
 }

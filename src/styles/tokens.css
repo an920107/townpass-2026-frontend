@@ -1,27 +1,67 @@
-/* 色票對應 lib/util/tp_colors.dart。長者版文字與主要按鈕用 primary-700，
-   primary-500 配白字對比不足，只作裝飾。 */
+/* 台北通設計系統的網頁版，對應 townpass-2026 的 lib/util：
+   色票與字重來自 tp_colors.dart、tp_text_styles.dart，
+   圓角與陰影來自 tp_button（10）、tp_card（3）、tp_bottom_sheet（6）。
+   這裡只列實際用到的階層，其餘仍在 tp_colors.dart；
+   長者版沿用同一組色票，只把字級放大一級，需要對比的地方改用 primary-600/700，
+   因為 primary-500 配白字只有 2.2:1，長者讀不清楚。 */
 :root {
+  /* Brand / Primary */
   --primary-50: #edf8fa;
-  --primary-100: #dbf1f5;
-  --primary-200: #b4e2ea;
-  --primary-500: #5ab4c5;
+  --primary-600: #468d9b;
   --primary-700: #356c77;
   --primary-800: #22474e;
+
+  /* Secondary */
+  --secondary-50: #fdf8ed;
   --secondary-100: #fcf2df;
+  --secondary-200: #f8e3bc;
   --secondary-500: #f5ba4b;
+  --secondary-700: #ad7b2b;
   --secondary-800: #74521b;
-  --gray-50: #f1f3f4;
-  --gray-100: #e3e7e9;
-  --gray-200: #cad1d5;
-  --gray-600: #5e6d76;
-  --gray-800: #30383d;
-  --gray-900: #171b1d;
+
+  /* Grayscale */
+  --grayscale-50: #f1f3f4;
+  --grayscale-100: #e3e7e9;
+  --grayscale-200: #cad1d5;
+  --grayscale-300: #adb8be;
+  --grayscale-400: #91a0a8;
+  --grayscale-600: #5e6d76;
+  --grayscale-800: #30383d;
+  --grayscale-900: #171b1d;
+  --grayscale-950: #0b0d0e;
+
   --red-600: #c2332f;
   --white: #ffffff;
+  --scrim: rgb(11 13 14 / 45%);
+  /* secondary-500 的 45%，播在亮點外圈的脈動環 */
+  --ring-target: rgb(245 186 75 / 45%);
 
+  /* 字級：TP 的 h1 / h2 / h3 / body / caption。 */
+  --text-h1: 30px;
+  --text-h2: 24px;
+  --text-h3: 22px;
   --text-body: 20px;
-  --text-lead: 22px;
-  --text-key: 28px;
-  --tap-size: 56px;
-  --radius: 16px;
+  --text-caption: 16px;
+  --weight-semi: 600;
+
+  /* 圓角 */
+  --radius-tight: 3px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+
+  /* 陰影 */
+  --shadow-card: 0 4px 12px rgb(0 0 0 / 4%);
+  --shadow-sheet: 0 0 6px rgb(0 0 0 / 10%);
+  --shadow-bar: 0 -10px 16px rgb(11 13 14 / 8%);
+
+  /* 動態：Material 3 的 easing 與時長，和 Flutter 端的轉場一致。 */
+  --motion-quick: 120ms;
+  --motion-base: 240ms;
+  --motion-sheet: 280ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-decelerate: cubic-bezier(0.05, 0.7, 0.1, 1);
+
+  /* 版型 */
+  --app-max: 560px;
+  --gutter: 16px;
 }

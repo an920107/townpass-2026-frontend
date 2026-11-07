@@ -1,4 +1,10 @@
-* {
+/* 版面順序：基礎 → 外框 → 選單 → 聊天 → 面板 → 底部面板 → 遮罩 → 動態。
+   這裡不畫 AppBar：頁面是在 App 的 webview 裡開啟，上方由 TPAppBar 提供標題與返回鍵。
+   尺寸以台北通 App 的 16px 邊距與 56px 工具列為基準。 */
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -10,11 +16,11 @@ body,
 }
 
 body {
-  background: var(--primary-50);
-  color: var(--gray-900);
+  background: var(--grayscale-100);
+  color: var(--grayscale-900);
   font-family: 'PingFang TC', 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
   font-size: var(--text-body);
-  line-height: 1.5;
+  line-height: 1.55;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -25,11 +31,12 @@ button {
 }
 
 button:focus-visible {
-  outline: 3px solid var(--secondary-500);
+  outline: 3px solid var(--secondary-700);
   outline-offset: 2px;
 }
 
 h1,
+h2,
 p {
   margin: 0;
 }
@@ -41,133 +48,168 @@ img {
 
 .icon {
   display: block;
-  height: 28px;
-  width: 28px;
-}
-
-/* 按鈕 */
-.big-button {
-  background: var(--primary-700);
-  border: 2px solid var(--primary-700);
-  border-radius: var(--radius);
-  color: var(--white);
   flex: none;
-  font-size: var(--text-lead);
-  font-weight: 700;
-  min-height: 64px;
-  padding: 10px 20px;
-  width: 100%;
+  height: 26px;
+  width: 26px;
 }
 
-.big-button.outline {
-  background: var(--white);
-  color: var(--primary-700);
-}
+/* ---------- 外框 ---------- */
 
-.round-button {
-  align-items: center;
+/* 桌機上把畫面框成一支手機，兩側才不會空得太突兀。 */
+.screen {
   background: var(--white);
-  border: 2px solid var(--gray-200);
-  border-radius: 50%;
-  color: var(--primary-700);
   display: flex;
-  flex: none;
-  height: 52px;
-  justify-content: center;
-  padding: 0;
-  position: relative;
-  width: 52px;
-}
-
-.round-button.is-target {
-  animation: pulse 1.4s ease-in-out infinite;
-  background: var(--secondary-500);
-  border-color: var(--primary-800);
-  color: var(--gray-900);
-  z-index: 2;
-}
-
-.round-button.is-nudged {
-  animation: nudge 0.5s ease-in-out 2, pulse 1.4s ease-in-out 1s infinite;
-}
-
-.round-button.is-playing {
-  animation: pulse 0.7s ease-in-out infinite;
-  background: var(--primary-700);
-  color: var(--white);
-}
-
-/* 選單 */
-.menu {
+  flex-direction: column;
+  height: 100%;
   margin: 0 auto;
-  max-width: 560px;
-  padding: 16px 16px 32px;
+  max-width: var(--app-max);
+  overflow: hidden;
+  position: relative;
+}
+
+@media (min-width: 600px) {
+  .screen {
+    box-shadow: 0 0 0 1px var(--grayscale-200), 0 16px 40px rgb(0 0 0 / 8%);
+  }
+}
+
+/* ---------- 選單 ---------- */
+
+/* 對應 TP 的訊息列表：灰底、細分隔線，不用卡片堆疊。 */
+.menu {
+  animation: screen-in var(--motion-base) var(--ease-decelerate) both;
+  background: var(--grayscale-50);
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-bottom: 32px;
+}
+
+.menu-head {
+  align-items: baseline;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  padding: 24px var(--gutter) 12px;
+}
+
+.menu-title {
+  font-size: var(--text-h3);
+  font-weight: var(--weight-semi);
+  line-height: 1.35;
+}
+
+.menu-progress {
+  color: var(--grayscale-600);
+  font-size: var(--text-caption);
 }
 
 .menu-list {
-  display: grid;
-  gap: 12px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  background: var(--white);
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.menu-list li {
-  display: flex;
+.menu-list li + li .menu-row {
+  border-top: 1px solid var(--grayscale-200);
 }
 
-.menu-card {
-  align-items: flex-start;
-  background: var(--white);
-  border: 2px solid var(--primary-200);
-  border-radius: var(--radius);
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  min-height: 150px;
-  padding: 14px;
-  position: relative;
+.menu-row {
+  align-items: center;
+  background: none;
+  border: 0;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 52px 1fr auto;
+  min-height: 84px;
+  padding: 14px var(--gutter);
   text-align: left;
+  transition: background var(--motion-quick) var(--ease-standard);
   width: 100%;
 }
 
-.menu-card strong {
-  color: var(--primary-800);
-  font-size: 24px;
-  line-height: 1.3;
-  margin-top: 6px;
-}
-
-.menu-subtitle {
-  color: var(--gray-800);
-  font-size: 18px;
-  line-height: 1.35;
+.menu-row:active {
+  background: var(--grayscale-50);
 }
 
 .menu-icon {
   align-items: center;
-  background: var(--primary-100);
-  border-radius: 50%;
+  background: var(--primary-50);
+  border-radius: var(--radius-sm);
   color: var(--primary-700);
   display: flex;
-  height: 56px;
+  height: 52px;
   justify-content: center;
-  width: 56px;
+  width: 52px;
 }
 
-.menu-done {
+.menu-text {
+  display: grid;
+  gap: 2px;
+}
+
+.menu-name {
+  font-size: var(--text-h3);
+  font-weight: var(--weight-semi);
+  line-height: 1.35;
+}
+
+.menu-subtitle {
+  color: var(--grayscale-600);
+  font-size: var(--text-caption);
+  line-height: 1.4;
+}
+
+.menu-go {
+  align-items: center;
+  color: var(--grayscale-400);
+  display: flex;
+  gap: 6px;
+}
+
+.menu-go .icon {
+  height: 20px;
+  width: 20px;
+}
+
+.menu-state {
   color: var(--primary-700);
-  position: absolute;
-  right: 12px;
-  top: 12px;
+  font-size: var(--text-caption);
+  font-weight: var(--weight-semi);
+}
+
+.menu-note {
+  border-top: 1px solid var(--grayscale-200);
+  color: var(--grayscale-600);
+  font-size: var(--text-caption);
+  line-height: 1.5;
+  padding: 16px var(--gutter) 0;
+}
+
+/* ---------- 聊天畫面 ---------- */
+
+.app {
+  flex: 1;
+  isolation: isolate;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.chat-app {
+  animation: screen-in var(--motion-base) var(--ease-decelerate) both;
+  background: var(--grayscale-50);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .chat-log {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
-  padding: 10px;
+  padding: var(--gutter);
   position: relative;
 }
 
@@ -177,38 +219,43 @@ img {
 }
 
 .chat-log::-webkit-scrollbar-thumb {
-  background: var(--primary-500);
+  background: var(--grayscale-300);
   border-radius: 4px;
 }
 
 .chat-empty {
-  color: var(--gray-800);
-  padding: 16px 4px;
+  color: var(--grayscale-600);
+  padding: 24px 0;
   text-align: center;
 }
 
 .bubble {
-  border-radius: var(--radius);
+  animation: bubble-in var(--motion-base) var(--ease-decelerate) both;
+  border-radius: var(--radius-md);
   margin-bottom: 10px;
-  max-width: 94%;
-  padding: 10px 12px;
+  max-width: 92%;
+  padding: 12px 16px;
   width: fit-content;
+}
+
+/* 收訊的一角收成 TPCard 的 3px，一眼看得出是誰在說話。 */
+.bubble.ai {
+  background: var(--white);
+  border-bottom-left-radius: var(--radius-tight);
+  box-shadow: var(--shadow-card);
 }
 
 .bubble.user {
   background: var(--primary-700);
+  border-bottom-right-radius: var(--radius-tight);
   color: var(--white);
   margin-left: auto;
 }
 
 .bubble.user img {
-  border-radius: 8px;
-  margin-bottom: 8px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 10px;
   max-height: 160px;
-}
-
-.bubble.ai {
-  background: var(--white);
 }
 
 .bubble.ai p + p {
@@ -217,24 +264,24 @@ img {
 
 .reply-headline {
   color: var(--primary-800);
-  font-size: var(--text-key);
-  font-weight: 700;
-  line-height: 1.3;
+  font-size: var(--text-h2);
+  font-weight: var(--weight-semi);
+  line-height: 1.35;
 }
 
 .typing {
   align-items: center;
   display: flex;
   gap: 8px;
-  min-height: 52px;
+  min-height: 30px;
 }
 
 .typing i {
   animation: bounce 1s ease-in-out infinite;
-  background: var(--primary-700);
+  background: var(--grayscale-400);
   border-radius: 50%;
-  height: 12px;
-  width: 12px;
+  height: 10px;
+  width: 10px;
 }
 
 .typing i:nth-child(2) {
@@ -245,28 +292,44 @@ img {
   animation-delay: 0.3s;
 }
 
+.reply-tools {
+  border-top: 1px solid var(--grayscale-100);
+  margin-top: 12px;
+  padding-top: 10px;
+}
+
 .reply-actions {
   align-items: center;
   display: flex;
-  gap: 12px;
+  gap: 10px;
+}
+
+.reply-tools .inline-tip {
   margin-top: 8px;
 }
 
 .reply-action-icon {
-  color: var(--gray-600);
+  color: var(--grayscale-400);
 }
 
+.reply-action-icon .icon {
+  height: 24px;
+  width: 24px;
+}
+
+/* 地點卡：TPCard 的淺陰影與 6px 圓角。 */
 .place-card {
   align-items: center;
-  border-top: 1px solid var(--gray-100);
+  background: var(--grayscale-50);
+  border-radius: var(--radius-sm);
   display: flex;
-  gap: 10px;
-  margin-top: 8px;
-  padding-top: 8px;
+  gap: 12px;
+  margin-top: 10px;
+  padding: 8px;
 }
 
 .place-art {
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   flex: none;
   height: 72px;
   object-fit: cover;
@@ -275,374 +338,80 @@ img {
 
 .place-card div {
   display: grid;
-  line-height: 1.3;
-}
-
-.place-card strong {
-  color: var(--primary-800);
-  font-size: 22px;
-}
-
-.place-card span {
-  color: var(--gray-800);
-  font-size: 18px;
-}
-
-.attachment {
-  flex: none;
-  padding: 0 10px 6px;
-}
-
-.attachment img {
-  border: 2px solid var(--primary-700);
-  border-radius: 8px;
-  height: 64px;
-}
-
-.composer {
-  align-items: center;
-  background: var(--white);
-  border-top: 2px solid var(--gray-100);
-  display: flex;
-  flex: none;
-  gap: 4px;
-  padding: 6px;
-}
-
-.composer-input {
-  background: var(--gray-50);
-  border-radius: 12px;
-  flex: 1;
-  font-size: 18px;
-  line-height: 1.3;
-  max-height: 96px;
-  min-height: 52px;
-  min-width: 0;
-  overflow-y: auto;
-  padding: 6px 8px;
-}
-
-.composer-input.is-empty {
-  color: var(--gray-600);
-}
-
-.choice-panel {
-  background: var(--primary-50);
-  display: grid;
-  flex: none;
-  gap: 8px;
-  max-height: 70%;
-  overflow-y: auto;
-  padding: 8px 10px;
-}
-
-.choice-button {
-  background: var(--white);
-  border: 2px solid var(--primary-700);
-  border-radius: 12px;
-  color: var(--primary-800);
-  font-weight: 700;
-  line-height: 1.3;
-  min-height: var(--tap-size);
-  padding: 8px 12px;
-}
-
-/* 上傳面板 */
-.upload-sheet {
-  background: var(--white);
-  border-radius: 20px 20px 0 0;
-  bottom: 0;
-  left: 0;
-  max-height: 100%;
-  overflow-y: auto;
-  padding: 12px;
-  position: absolute;
-  right: 0;
-  z-index: 3;
-}
-
-.upload-grid {
-  display: grid;
-  gap: 8px;
-}
-
-/* 文件是直式圖片；多張選項是橫式，要滿版才讀得到內容。 */
-.upload-grid.count-1 {
-  grid-template-columns: minmax(0, 200px);
-  justify-content: center;
-}
-
-.upload-grid:not(.count-1) img {
-  max-height: none;
-  width: 100%;
-}
-
-.upload-grid button {
-  background: var(--primary-50);
-  border: 2px solid var(--primary-700);
-  border-radius: 12px;
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 1.3;
-  padding: 6px;
-}
-
-.upload-grid img {
-  margin: 0 auto 4px;
-  max-height: 150px;
-}
-
-/* 語音 */
-.voice-panel {
-  align-items: center;
-  background: var(--primary-50);
-  display: flex;
-  flex: none;
-  flex-direction: column;
-  gap: 6px;
-  padding: 8px 10px;
-}
-
-.voice-card {
-  background: var(--secondary-100);
-  border: 2px solid var(--secondary-500);
-  border-radius: 12px;
-  display: grid;
-  padding: 6px 12px;
-  text-align: center;
-  width: 100%;
-}
-
-.voice-card strong {
-  font-size: var(--text-lead);
-  line-height: 1.3;
-}
-
-.voice-card.is-nudged-card {
-  animation: shake 0.5s ease-in-out;
-}
-
-.wave {
-  align-items: center;
-  display: flex;
-  gap: 5px;
-  height: 32px;
-}
-
-.wave i {
-  animation: wave 0.9s ease-in-out infinite;
-  background: var(--primary-700);
-  border-radius: 3px;
-  height: 100%;
-  width: 6px;
-}
-
-/* 情境頁：完整的 AI App 畫面 */
-.app {
-  height: 100%;
-  isolation: isolate;
-  margin: 0 auto;
-  max-width: 560px;
-  overflow: hidden;
-  position: relative;
-}
-
-.chat-app {
-  background: var(--gray-50);
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-/* Spotlight */
-.spot-hole {
-  color: rgb(23 27 29 / 45%);
-  height: 100%;
-  inset: 0;
-  width: 100%;
-  pointer-events: none;
-  position: fixed;
-  z-index: 4;
-}
-
-.spot-tip-anchor {
-  left: 16px;
-  pointer-events: none;
-  position: fixed;
-  right: 16px;
-  z-index: 5;
-}
-
-.spot-tip {
-  background: var(--white);
-  border-radius: var(--radius);
-  box-shadow: 0 4px 16px rgb(23 27 29 / 30%);
-  font-size: var(--text-lead);
-  font-weight: 700;
-  line-height: 1.4;
-  padding: 12px 16px;
-}
-
-.spot-tip.is-hint,
-.inline-tip.is-hint {
-  animation: shake 0.5s ease-in-out;
-  color: var(--red-600);
-}
-
-.spot-arrow {
-  background: var(--white);
-  bottom: -8px;
-  height: 16px;
-  margin-left: -8px;
-  position: absolute;
-  transform: rotate(45deg);
-  width: 16px;
-}
-
-.inline-tip {
-  font-size: var(--text-body);
-  font-weight: 700;
+  gap: 2px;
   line-height: 1.35;
 }
 
-.reply-tools {
-  background: var(--white);
-  border-radius: 12px;
-  margin-top: 8px;
+.place-card strong {
+  color: var(--grayscale-900);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-semi);
 }
 
-.reply-tools .reply-actions {
-  margin-top: 0;
+.place-card span {
+  color: var(--grayscale-600);
+  font-size: var(--text-caption);
 }
 
-.reply-tools .inline-tip {
-  margin-top: 6px;
-}
-
-.sheet-scrim {
-  background: rgb(23 27 29 / 45%);
-  inset: 0;
-  position: absolute;
-  z-index: 2;
-}
-
-/* 完成面板 */
-.completion {
-  background: var(--white);
-  border-radius: 20px 20px 0 0;
-  bottom: 0;
-  display: grid;
-  gap: 10px;
-  left: 0;
-  max-height: 100%;
-  overflow-y: auto;
-  padding: 16px;
-  position: absolute;
-  right: 0;
-  z-index: 3;
-}
-
-.completion h1 {
-  color: var(--primary-800);
-  font-size: var(--text-key);
-  line-height: 1.3;
-  text-align: center;
-}
-
-.completion ul {
-  display: grid;
-  gap: 6px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.completion li {
-  display: flex;
-  gap: 8px;
-}
-
-.completion li .icon {
-  color: var(--primary-700);
-  flex: none;
-}
-
-.safety-note {
+.result-tip {
   background: var(--secondary-100);
-  border-radius: 12px;
+  border-radius: var(--radius-sm);
   color: var(--secondary-800);
-  font-weight: 700;
-  padding: 8px 12px;
+  font-size: var(--text-caption);
+  font-weight: var(--weight-semi);
+  margin-bottom: 8px;
+  padding: 4px 10px;
+  width: fit-content;
 }
 
-@keyframes pulse {
-  50% {
-    box-shadow: 0 0 0 8px rgb(245 186 75 / 55%);
-  }
+/* 同時亮起 AI 回覆時，留出位置讓回覆捲到最上面，提示框才不會蓋住內容。 */
+.chat-log.has-result-tip {
+  padding-bottom: 120px;
 }
 
-@keyframes nudge {
-  50% {
-    transform: scale(1.3);
-  }
-}
-
-@keyframes shake {
-  25% {
-    transform: translateX(-6px);
-  }
-  75% {
-    transform: translateX(6px);
-  }
-}
-
-@keyframes bounce {
-  50% {
-    transform: translateY(-6px);
-  }
-}
-
-@keyframes wave {
-  50% {
-    transform: scaleY(0.3);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-  }
-}
+/* ---------- 輸入列 ---------- */
 
 .composer-area {
   background: var(--white);
+  box-shadow: var(--shadow-sheet);
   flex: none;
+  position: relative;
+  z-index: 1;
 }
 
-.composer-area .attachment {
-  padding-top: 6px;
+.composer {
+  align-items: flex-end;
+  display: flex;
+  gap: 8px;
+  padding: 8px 12px max(env(safe-area-inset-bottom), 12px);
 }
 
-/* 避開手機底部的手勢列 */
-.composer,
-.upload-sheet,
-.completion {
-  padding-bottom: max(env(safe-area-inset-bottom), 24px);
-}
-
-/* 輸入框是可以點的按鈕，點了之後要看起來像準備打字 */
 .composer-input {
+  background: var(--grayscale-50);
   border: 2px solid transparent;
-  color: var(--gray-900);
+  border-radius: var(--radius-md);
+  color: var(--grayscale-900);
   display: block;
+  flex: 1;
+  font-size: 18px;
+  line-height: 1.4;
+  max-height: 96px;
+  min-height: 48px;
+  min-width: 0;
+  overflow-y: auto;
+  padding: 10px 14px;
   text-align: left;
+  transition:
+    background var(--motion-quick) var(--ease-standard),
+    border-color var(--motion-quick) var(--ease-standard);
+}
+
+.composer-input.is-empty {
+  color: var(--grayscale-600);
 }
 
 .composer-input.is-target {
-  animation: pulse 1.4s ease-in-out infinite;
+  animation: pulse 1.8s var(--ease-standard) infinite;
   background: var(--secondary-100);
   border-color: var(--primary-800);
 }
@@ -657,9 +426,436 @@ img {
   background: var(--primary-700);
   content: '';
   display: inline-block;
-  height: 24px;
+  height: 22px;
   vertical-align: middle;
   width: 2px;
+}
+
+/* 錄音中：輸入框本身就是收音動畫，跟 Gemini、ChatGPT 的錄音列一樣。 */
+.composer-input.is-recording {
+  align-items: center;
+  background: var(--primary-50);
+  border-color: var(--primary-200);
+  display: flex;
+  justify-content: center;
+}
+
+/* 圓形按鈕對應 TPButton：主要動作填色，其餘留白。 */
+.round-button {
+  align-items: center;
+  background: var(--white);
+  border: 1px solid var(--grayscale-200);
+  border-radius: 50%;
+  color: var(--grayscale-800);
+  display: flex;
+  flex: none;
+  height: 48px;
+  justify-content: center;
+  padding: 0;
+  position: relative;
+  transition:
+    background var(--motion-quick) var(--ease-standard),
+    border-color var(--motion-quick) var(--ease-standard),
+    color var(--motion-quick) var(--ease-standard);
+  width: 48px;
+}
+
+.round-button[data-target='send'] {
+  background: var(--primary-700);
+  border-color: var(--primary-700);
+  color: var(--white);
+}
+
+.round-button.is-target {
+  animation: pulse 1.8s var(--ease-standard) infinite;
+  background: var(--secondary-500);
+  border-color: var(--primary-800);
+  color: var(--grayscale-900);
+  z-index: 2;
+}
+
+.round-button.is-nudged {
+  animation: nudge 0.5s var(--ease-standard) 2, pulse 1.8s var(--ease-standard) 1s infinite;
+}
+
+.round-button.is-playing {
+  animation: pulse 1s var(--ease-standard) infinite;
+  background: var(--primary-700);
+  color: var(--white);
+}
+
+/* 收音中：麥克風位置變成紅色停止鍵 */
+.round-button.is-recording {
+  background: var(--red-600);
+  border-color: var(--red-600);
+  color: var(--white);
+}
+
+.attachment {
+  flex: none;
+  padding: 10px 12px 0;
+}
+
+.attachment img {
+  border: 1px solid var(--grayscale-200);
+  border-radius: var(--radius-sm);
+  height: 64px;
+}
+
+/* ---------- 輸入框上方的面板 ---------- */
+
+/* 錄音時只要一張「要唸的稿子」：收音動畫在輸入框裡，說明走 spotlight 的對話框。 */
+.choice-panel {
+  animation: panel-in var(--motion-sheet) var(--ease-decelerate) both;
+  background: var(--white);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  box-shadow: var(--shadow-bar);
+  display: grid;
+  flex: none;
+  gap: 10px;
+  max-height: 70%;
+  overflow-y: auto;
+  padding: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.choice-button {
+  background: var(--white);
+  border: 2px solid var(--primary-600);
+  border-radius: var(--radius-md);
+  color: var(--primary-800);
+  font-size: var(--text-body);
+  font-weight: var(--weight-semi);
+  line-height: 1.35;
+  min-height: 60px;
+  padding: 10px 16px;
+  text-align: center;
+  transition: background var(--motion-quick) var(--ease-standard);
+}
+
+.choice-button:active {
+  background: var(--primary-50);
+}
+
+/* ---------- 語音面板 ---------- */
+
+/* 和下方的輸入列靠在一起，亮起來時連成一塊「正在聽」的區域。 */
+.voice-panel {
+  animation: panel-in var(--motion-sheet) var(--ease-decelerate) both;
+  flex: none;
+  padding: 12px var(--gutter) 10px;
+  position: relative;
+  z-index: 1;
+}
+
+.voice-card {
+  background: var(--secondary-100);
+  border: 1px solid var(--secondary-500);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  color: var(--secondary-800);
+  padding: 12px 16px;
+  text-align: center;
+}
+
+.voice-card strong {
+  font-size: var(--text-h3);
+  font-weight: var(--weight-semi);
+  line-height: 1.4;
+}
+
+.wave {
+  align-items: center;
+  display: flex;
+  gap: 4px;
+  height: 24px;
+}
+
+.wave i {
+  animation: wave 0.9s ease-in-out infinite;
+  background: var(--primary-700);
+  border-radius: 2px;
+  height: 100%;
+  width: 4px;
+}
+
+/* ---------- 說明文字 ---------- */
+
+.inline-tip {
+  font-size: var(--text-h3);
+  font-weight: var(--weight-semi);
+  line-height: 1.4;
+}
+
+.spot-tip.is-hint,
+.inline-tip.is-hint {
+  animation: shake 0.5s var(--ease-standard);
+  color: var(--red-600);
+}
+
+/* ---------- 底部面板（上傳、完成） ---------- */
+
+.sheet-scrim {
+  animation: fade-in var(--motion-sheet) var(--ease-standard) both;
+  background: var(--scrim);
+  inset: 0;
+  position: absolute;
+  z-index: 2;
+}
+
+.upload-sheet,
+.completion {
+  animation: sheet-in var(--motion-sheet) var(--ease-decelerate) both;
+  background: var(--white);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  bottom: 0;
+  box-shadow: var(--shadow-bar);
+  left: 0;
+  max-height: 100%;
+  overflow-y: auto;
+  padding: 16px 16px max(env(safe-area-inset-bottom), 16px);
+  position: absolute;
+  right: 0;
+  z-index: 3;
+}
+
+.upload-grid {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+/* 只有一張圖時縮成一欄，大小和聊天泡泡裡的縮圖一致；多張選項才讓圖片滿版。 */
+.upload-grid.count-1 {
+  grid-template-columns: minmax(0, 200px);
+  justify-content: center;
+}
+
+.upload-grid:not(.count-1) img {
+  max-height: none;
+  width: 100%;
+}
+
+.upload-grid button {
+  background: var(--white);
+  border: 2px solid var(--primary-600);
+  border-radius: var(--radius-md);
+  font-size: var(--text-body);
+  font-weight: var(--weight-semi);
+  line-height: 1.35;
+  padding: 10px;
+  transition: background var(--motion-quick) var(--ease-standard);
+}
+
+.upload-grid button:active {
+  background: var(--primary-50);
+}
+
+.upload-grid img {
+  margin: 0 auto 8px;
+  max-height: 150px;
+}
+
+/* ---------- 完成面板 ---------- */
+
+.completion {
+  display: grid;
+  gap: 16px;
+}
+
+.completion h2 {
+  color: var(--grayscale-900);
+  font-size: var(--text-h1);
+  font-weight: var(--weight-semi);
+  line-height: 1.35;
+  text-align: center;
+}
+
+.completion ul {
+  display: grid;
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.completion li {
+  align-items: flex-start;
+  display: flex;
+  gap: 10px;
+}
+
+.completion li .icon {
+  color: var(--primary-600);
+  flex: none;
+}
+
+.safety-note {
+  background: var(--secondary-50);
+  border: 1px solid var(--secondary-200);
+  border-radius: var(--radius-sm);
+  color: var(--secondary-800);
+  font-size: var(--text-caption);
+  font-weight: var(--weight-semi);
+  line-height: 1.5;
+  padding: 12px 14px;
+}
+
+/* 按鈕對應 TPButton.primary / .secondary。 */
+.big-button {
+  background: var(--primary-700);
+  border: 2px solid var(--primary-700);
+  border-radius: var(--radius-md);
+  color: var(--white);
+  flex: none;
+  font-size: var(--text-body);
+  font-weight: var(--weight-semi);
+  min-height: 60px;
+  padding: 12px 20px;
+  transition:
+    background var(--motion-quick) var(--ease-standard),
+    border-color var(--motion-quick) var(--ease-standard);
+  width: 100%;
+}
+
+.big-button:active {
+  background: var(--primary-800);
+  border-color: var(--primary-800);
+}
+
+.big-button.outline {
+  background: var(--white);
+  border-color: var(--primary-600);
+  color: var(--primary-700);
+}
+
+.big-button.outline:active {
+  background: var(--primary-50);
+  border-color: var(--primary-600);
+}
+
+/* ---------- 光點遮罩 ---------- */
+
+/* 位置由 Spotlight 每幀寫入，這裡只負責顏色與層級。 */
+.spot-hole {
+  color: var(--scrim);
+  height: 100%;
+  inset: 0;
+  pointer-events: none;
+  position: fixed;
+  width: 100%;
+  z-index: 4;
+}
+
+/* 寬度對齊模擬畫面的欄寬，桌機上提示框才不會橫跨整個視窗。 */
+.spot-tip-anchor {
+  left: 50%;
+  max-width: var(--app-max);
+  padding: 0 var(--gutter);
+  pointer-events: none;
+  position: fixed;
+  transform: translateX(-50%);
+  width: 100%;
+  z-index: 5;
+}
+
+.spot-tip {
+  animation: tip-in var(--motion-base) var(--ease-decelerate) both;
+  background: var(--white);
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 16px rgb(11 13 14 / 24%);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-semi);
+  line-height: 1.45;
+  padding: 14px 18px;
+  position: relative;
+}
+
+.spot-arrow {
+  background: var(--white);
+  bottom: -7px;
+  height: 14px;
+  margin-left: -7px;
+  position: absolute;
+  transform: rotate(45deg);
+  width: 14px;
+}
+
+/* ---------- 動態 ---------- */
+
+/* 一次性的進場：畫面、訊息、面板各一，不做逐區塊的浮起。 */
+@keyframes screen-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@keyframes bubble-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+@keyframes sheet-in {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes tip-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@keyframes pulse {
+  50% {
+    box-shadow: 0 0 0 6px var(--ring-target);
+  }
+}
+
+@keyframes nudge {
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes shake {
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+@keyframes bounce {
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes wave {
+  50% {
+    transform: scaleY(0.3);
+  }
 }
 
 @keyframes caret {
@@ -668,25 +864,13 @@ img {
   }
 }
 
-/* 同時亮起 AI 回覆時，留出位置讓回覆捲到最上面，提示框才不會蓋住內容。 */
-.chat-log.has-result-tip {
-  padding-bottom: 96px;
-}
-
-.result-tip {
-  background: var(--secondary-100);
-  border-radius: 8px;
-  color: var(--secondary-800);
-  font-size: 18px;
-  font-weight: 700;
-  margin-bottom: 6px;
-  padding: 2px 8px;
-  width: fit-content;
-}
-
-/* 收音中：麥克風位置變成紅色停止鍵 */
-.round-button.is-recording {
-  background: var(--red-600);
-  border-color: var(--red-600);
-  color: var(--white);
+/* 減少動態時，連過場也一起關掉，畫面直接到位。 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
