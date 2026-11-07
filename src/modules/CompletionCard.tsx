@@ -13,7 +13,7 @@ export function CompletionCard({ title, points, onReplay, onExit }: Props) {
     <>
       <div className="sheet-scrim" />
       <div className="completion">
-        <h1>{title}</h1>
+        <h2>{title}</h2>
         <ul>
           {points.map((point) => (
             <li key={point}>

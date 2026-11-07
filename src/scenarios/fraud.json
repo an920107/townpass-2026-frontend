@@ -37,8 +37,7 @@
         {
           "id": "scam",
           "label": "銀行簡訊",
-          "image": "/images/fraud-sms.svg",
-          "wide": true
+          "image": "/images/fraud-sms.svg"
         }
       ],
       "tip": "這是一則虛構的簡訊，看起來怪怪的。點一下傳給 AI。"

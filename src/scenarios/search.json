@@ -60,8 +60,12 @@
       "tip": "實際使用時，就是像這樣自己打字。打好後按箭頭送出。"
     },
     {
-      "id": "read",
-      "type": "read"
+      "id": "like",
+      "type": "tap",
+      "target": "like",
+      "hint": "請點亮起來的讚喔！",
+      "tip": "看完了嗎？覺得有幫助就按個讚。",
+      "resultTip": "這是 AI 整理的說明"
     },
     {
       "id": "done",

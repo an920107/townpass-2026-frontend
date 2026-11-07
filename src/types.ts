@@ -8,8 +8,6 @@ export interface Option {
   label: string;
   /** 只有上傳面板的選項會用到 */
   image?: string;
-  /** 橫式圖片要滿版，字才讀得到 */
-  wide?: boolean;
 }
 
 interface BaseStep {
@@ -18,12 +16,6 @@ interface BaseStep {
   tip: string;
   /** 點錯時的提示，沒寫就用預設文字 */
   hint?: string;
-}
-
-/** AI 回答後留時間閱讀，不需要操作，時間到自動往下。 */
-export interface ReadStep {
-  id: string;
-  type: 'read';
 }
 
 /** 必須點到指定按鈕才能繼續。 */
@@ -81,7 +73,6 @@ export interface DoneStep {
 }
 
 export type Step =
-  | ReadStep
   | TapStep
   | AttachStep
   | PromptStep

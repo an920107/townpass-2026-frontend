@@ -1,6 +1,7 @@
 import { useEffect, useRef, type ReactNode } from 'react';
 import type { ChatMessage, Reply, Spot, Target } from '../types';
 import { Icon } from './Icons';
+import { Wave } from './Wave';
 
 interface Props {
   messages: ChatMessage[];
@@ -95,7 +96,10 @@ export function ChatMock({
       {children}
 
       {/* 送出時連附件和輸入框一起亮起來，才看得到要送出的內容。 */}
-      <div className="composer-area" data-spot={spot === 'send' ? 'send' : undefined}>
+      <div
+        className="composer-area"
+        data-spot={spot === 'send' || spot === 'stop' ? spot : undefined}
+      >
         {attachment && (
           <div className="attachment">
             <img src={attachment} alt="準備送出的圖片" />
@@ -105,19 +109,18 @@ export function ChatMock({
           {composerButton('plus', '上傳圖片')}
           <button
             key={spot === 'input' ? `input-${nudges}` : 'input'}
-            className={`composer-input${draft ? '' : ' is-empty'}${typing ? ' is-typing' : ''}${spot === 'input' ? ' is-target' : ''}${spot === 'input' && nudges > 0 ? ' is-nudged' : ''}`}
+            className={`composer-input${draft ? '' : ' is-empty'}${typing ? ' is-typing' : ''}${recording ? ' is-recording' : ''}${spot === 'input' ? ' is-target' : ''}${spot === 'input' && nudges > 0 ? ' is-nudged' : ''}`}
             data-target="input"
             data-spot="input"
-            aria-label="輸入框"
+            aria-label={recording ? '正在錄音' : '輸入框'}
           >
-            {draft || (typing ? '' : '問問 AI')}
+            {recording ? <Wave /> : draft || (typing ? '' : '問問 AI')}
           </button>
           {recording ? (
             <button
               key={`stop-${nudges}`}
               className={`round-button is-recording${spot === 'stop' ? ' is-target' : ''}${spot === 'stop' && nudges > 0 ? ' is-nudged' : ''}`}
               data-target="stop"
-              data-spot="stop"
               aria-label="停止錄音"
             >
               <Icon name="stop" />

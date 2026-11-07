@@ -2,7 +2,6 @@ import { fill } from '../engine/template';
 import type { Picks, Scenario } from '../types';
 
 const STEP_TYPES = new Set([
-  'read',
   'tap',
   'attach',
   'prompt',
