@@ -102,6 +102,16 @@ img {
 .menu-progress {
   color: var(--grayscale-600);
   font-size: var(--text-caption);
+  position: relative;
+  /* 也是除錯手勢的點擊目標（連續點 5 下），所以不要選到字。 */
+  user-select: none;
+}
+
+/* 把點擊範圍養大一點，好連點 5 下，但不影響排版。 */
+.menu-progress::before {
+  content: '';
+  inset: -10px -8px;
+  position: absolute;
 }
 
 .menu-list {

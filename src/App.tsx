@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { ScenarioPlayer } from './engine/ScenarioPlayer';
 import { ScenarioMenu } from './modules/ScenarioMenu';
 import { scenarios } from './scenarios';
-import { loadCompleted, saveCompleted } from './storage';
+import { loadCompleted, saveCompleted, clearCompleted } from './storage';
 
 function currentId(): string | null {
   return (history.state as { scenario?: string } | null)?.scenario ?? null;
@@ -33,10 +33,23 @@ export function App() {
     });
   }, []);
 
+  // 除錯用：清掉紀錄後直接回到全新狀態。
+  const reset = useCallback(() => {
+    clearCompleted();
+    setCompleted([]);
+  }, []);
+
   const scenario = scenarios.find((s) => s.id === openId);
 
   if (!scenario) {
-    return <ScenarioMenu scenarios={scenarios} completed={completed} onOpen={open} />;
+    return (
+      <ScenarioMenu
+        scenarios={scenarios}
+        completed={completed}
+        onOpen={open}
+        onReset={reset}
+      />
+    );
   }
   return (
     <ScenarioPlayer

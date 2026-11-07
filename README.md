@@ -10,6 +10,11 @@ npm run dev     # 本機預覽
 npm run build   # 型別檢查、情境資料檢查、打包到 dist/
 ```
 
+### 除錯
+
+連續點選單右上角的「已完成 x 個」5 下，會清掉 localStorage 的完成紀錄，回到全新狀態。
+兩下之間停頓超過 1.5 秒就重新數，所以慢慢點不會誤觸。（`src/modules/ScenarioMenu.tsx`）
+
 ## 設計
 
 介面沿用台北通 App（`townpass-2026`）的設計系統，不另外發明一套：
