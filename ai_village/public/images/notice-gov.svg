@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+  <rect width="300" height="300" fill="#FFFFFF"/>
+  <rect x="4" y="4" width="292" height="292" fill="none" stroke="#30383D" stroke-width="2"/>
+  <g font-family="sans-serif" fill="#171B1D" font-size="20">
+    <text x="150" y="40" text-anchor="middle" font-size="23" font-weight="700">繳款通知書</text>
+    <text x="150" y="64" text-anchor="middle" font-size="16" fill="#5E6D76">練習用範例</text>
+    <text x="20" y="108">主旨：請依限繳納</text>
+    <text x="20" y="142">　　　本期規費。</text>
+    <text x="20" y="184">金額：新臺幣 500 元</text>
+    <text x="20" y="218">期限：本月 30 日前</text>
+    <text x="20" y="260" font-size="17" fill="#5E6D76">逾期將依規定辦理。</text>
+  </g>
+</svg>

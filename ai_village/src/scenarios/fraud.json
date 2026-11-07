@@ -1,0 +1,95 @@
+{
+  "id": "fraud",
+  "title": "辨識詐騙",
+  "subtitle": "可疑訊息先問 AI",
+  "icon": "shield",
+  "replies": {
+    "scam-check": {
+      "headline": "詐騙風險很高，不要點連結",
+      "body": [
+        "催您「今天內」處理，是常見的騙術。",
+        "網址看起來不像銀行官方網站。",
+        "建議打 165，或打銀行卡片背面的電話確認。"
+      ]
+    },
+    "scam-verify": {
+      "headline": "先別點，打電話確認",
+      "body": [
+        "不要用簡訊裡的連結或電話。",
+        "打銀行卡片背面的電話，問帳戶有沒有問題。",
+        "也可以打 165 反詐騙專線。"
+      ]
+    }
+  },
+  "steps": [
+    {
+      "id": "plus",
+      "type": "tap",
+      "target": "plus",
+      "hint": "請點亮起來的「＋」喔！",
+      "tip": "收到奇怪的訊息別緊張！截圖後點「＋」傳給 AI。"
+    },
+    {
+      "id": "attach",
+      "type": "attach",
+      "pick": "image",
+      "options": [
+        {
+          "id": "scam",
+          "label": "銀行簡訊",
+          "image": "/images/fraud-sms.svg",
+          "wide": true
+        }
+      ],
+      "tip": "這是一則虛構的簡訊，看起來怪怪的。點一下傳給 AI。"
+    },
+    {
+      "id": "input",
+      "type": "tap",
+      "target": "input",
+      "hint": "請點亮起來的輸入框喔！",
+      "tip": "問題要打在這個輸入框。先點一下。"
+    },
+    {
+      "id": "prompt",
+      "type": "prompt",
+      "pick": "ask",
+      "options": [
+        {
+          "id": "check",
+          "label": "這則簡訊是不是詐騙？"
+        },
+        {
+          "id": "verify",
+          "label": "這則簡訊怎麼確認真假？"
+        }
+      ],
+      "tip": "平常要自己打字。為了幫您省時間，這次準備好常見問題，點一個就好。"
+    },
+    {
+      "id": "send",
+      "type": "send",
+      "reply": "{image}-{ask}",
+      "hint": "請點亮起來的箭頭喔！",
+      "tip": "實際使用時，就是像這樣自己打字。打好後按箭頭送出。"
+    },
+    {
+      "id": "like",
+      "type": "tap",
+      "target": "like",
+      "hint": "請點亮起來的讚喔！",
+      "tip": "看完了嗎？覺得有幫助就按個讚。",
+      "resultTip": "這是 AI 的判斷"
+    },
+    {
+      "id": "done",
+      "type": "done",
+      "title": "您學會請 AI 看可疑訊息了！",
+      "points": [
+        "截圖傳給 AI",
+        "不要點可疑連結",
+        "不確定就打 165"
+      ]
+    }
+  ]
+}

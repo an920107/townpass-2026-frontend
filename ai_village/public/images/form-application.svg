@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+  <rect width="300" height="300" fill="#FFFFFF"/>
+  <rect x="4" y="4" width="292" height="292" fill="none" stroke="#356C77" stroke-width="3"/>
+  <g font-family="sans-serif" fill="#171B1D" font-size="20">
+    <text x="150" y="38" text-anchor="middle" font-size="23" font-weight="700">活動補助申請書</text>
+    <text x="150" y="62" text-anchor="middle" font-size="16" fill="#5E6D76">練習用範例</text>
+    <text x="20" y="104"><tspan fill="#C2332F">＊</tspan>姓名</text>
+    <rect x="130" y="84" width="150" height="28" fill="#F1F3F4"/>
+    <text x="20" y="150"><tspan fill="#C2332F">＊</tspan>戶籍地址</text>
+    <rect x="130" y="130" width="150" height="28" fill="#F1F3F4"/>
+    <text x="20" y="196">　通訊地址</text>
+    <rect x="130" y="176" width="150" height="28" fill="#F1F3F4"/>
+    <text x="20" y="242">　代理人</text>
+    <rect x="130" y="222" width="150" height="28" fill="#F1F3F4"/>
+  </g>
+</svg>

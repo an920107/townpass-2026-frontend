@@ -1,0 +1,692 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--primary-50);
+  color: var(--gray-900);
+  font-family: 'PingFang TC', 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+  font-size: var(--text-body);
+  line-height: 1.5;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}
+
+button:focus-visible {
+  outline: 3px solid var(--secondary-500);
+  outline-offset: 2px;
+}
+
+h1,
+p {
+  margin: 0;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+.icon {
+  display: block;
+  height: 28px;
+  width: 28px;
+}
+
+/* 按鈕 */
+.big-button {
+  background: var(--primary-700);
+  border: 2px solid var(--primary-700);
+  border-radius: var(--radius);
+  color: var(--white);
+  flex: none;
+  font-size: var(--text-lead);
+  font-weight: 700;
+  min-height: 64px;
+  padding: 10px 20px;
+  width: 100%;
+}
+
+.big-button.outline {
+  background: var(--white);
+  color: var(--primary-700);
+}
+
+.round-button {
+  align-items: center;
+  background: var(--white);
+  border: 2px solid var(--gray-200);
+  border-radius: 50%;
+  color: var(--primary-700);
+  display: flex;
+  flex: none;
+  height: 52px;
+  justify-content: center;
+  padding: 0;
+  position: relative;
+  width: 52px;
+}
+
+.round-button.is-target {
+  animation: pulse 1.4s ease-in-out infinite;
+  background: var(--secondary-500);
+  border-color: var(--primary-800);
+  color: var(--gray-900);
+  z-index: 2;
+}
+
+.round-button.is-nudged {
+  animation: nudge 0.5s ease-in-out 2, pulse 1.4s ease-in-out 1s infinite;
+}
+
+.round-button.is-playing {
+  animation: pulse 0.7s ease-in-out infinite;
+  background: var(--primary-700);
+  color: var(--white);
+}
+
+/* 選單 */
+.menu {
+  margin: 0 auto;
+  max-width: 560px;
+  padding: 16px 16px 32px;
+}
+
+.menu-list {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu-list li {
+  display: flex;
+}
+
+.menu-card {
+  align-items: flex-start;
+  background: var(--white);
+  border: 2px solid var(--primary-200);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 150px;
+  padding: 14px;
+  position: relative;
+  text-align: left;
+  width: 100%;
+}
+
+.menu-card strong {
+  color: var(--primary-800);
+  font-size: 24px;
+  line-height: 1.3;
+  margin-top: 6px;
+}
+
+.menu-subtitle {
+  color: var(--gray-800);
+  font-size: 18px;
+  line-height: 1.35;
+}
+
+.menu-icon {
+  align-items: center;
+  background: var(--primary-100);
+  border-radius: 50%;
+  color: var(--primary-700);
+  display: flex;
+  height: 56px;
+  justify-content: center;
+  width: 56px;
+}
+
+.menu-done {
+  color: var(--primary-700);
+  position: absolute;
+  right: 12px;
+  top: 12px;
+}
+
+.chat-log {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 10px;
+  position: relative;
+}
+
+/* 手機預設的捲軸會自動隱藏，長者看不出下面還有內容。 */
+.chat-log::-webkit-scrollbar {
+  width: 8px;
+}
+
+.chat-log::-webkit-scrollbar-thumb {
+  background: var(--primary-500);
+  border-radius: 4px;
+}
+
+.chat-empty {
+  color: var(--gray-800);
+  padding: 16px 4px;
+  text-align: center;
+}
+
+.bubble {
+  border-radius: var(--radius);
+  margin-bottom: 10px;
+  max-width: 94%;
+  padding: 10px 12px;
+  width: fit-content;
+}
+
+.bubble.user {
+  background: var(--primary-700);
+  color: var(--white);
+  margin-left: auto;
+}
+
+.bubble.user img {
+  border-radius: 8px;
+  margin-bottom: 8px;
+  max-height: 160px;
+}
+
+.bubble.ai {
+  background: var(--white);
+}
+
+.bubble.ai p + p {
+  margin-top: 8px;
+}
+
+.reply-headline {
+  color: var(--primary-800);
+  font-size: var(--text-key);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.typing {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  min-height: 52px;
+}
+
+.typing i {
+  animation: bounce 1s ease-in-out infinite;
+  background: var(--primary-700);
+  border-radius: 50%;
+  height: 12px;
+  width: 12px;
+}
+
+.typing i:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.typing i:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.reply-actions {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.reply-action-icon {
+  color: var(--gray-600);
+}
+
+.place-card {
+  align-items: center;
+  border-top: 1px solid var(--gray-100);
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+  padding-top: 8px;
+}
+
+.place-art {
+  border-radius: 10px;
+  flex: none;
+  height: 72px;
+  object-fit: cover;
+  width: 72px;
+}
+
+.place-card div {
+  display: grid;
+  line-height: 1.3;
+}
+
+.place-card strong {
+  color: var(--primary-800);
+  font-size: 22px;
+}
+
+.place-card span {
+  color: var(--gray-800);
+  font-size: 18px;
+}
+
+.attachment {
+  flex: none;
+  padding: 0 10px 6px;
+}
+
+.attachment img {
+  border: 2px solid var(--primary-700);
+  border-radius: 8px;
+  height: 64px;
+}
+
+.composer {
+  align-items: center;
+  background: var(--white);
+  border-top: 2px solid var(--gray-100);
+  display: flex;
+  flex: none;
+  gap: 4px;
+  padding: 6px;
+}
+
+.composer-input {
+  background: var(--gray-50);
+  border-radius: 12px;
+  flex: 1;
+  font-size: 18px;
+  line-height: 1.3;
+  max-height: 96px;
+  min-height: 52px;
+  min-width: 0;
+  overflow-y: auto;
+  padding: 6px 8px;
+}
+
+.composer-input.is-empty {
+  color: var(--gray-600);
+}
+
+.choice-panel {
+  background: var(--primary-50);
+  display: grid;
+  flex: none;
+  gap: 8px;
+  max-height: 70%;
+  overflow-y: auto;
+  padding: 8px 10px;
+}
+
+.choice-button {
+  background: var(--white);
+  border: 2px solid var(--primary-700);
+  border-radius: 12px;
+  color: var(--primary-800);
+  font-weight: 700;
+  line-height: 1.3;
+  min-height: var(--tap-size);
+  padding: 8px 12px;
+}
+
+/* 上傳面板 */
+.upload-sheet {
+  background: var(--white);
+  border-radius: 20px 20px 0 0;
+  bottom: 0;
+  left: 0;
+  max-height: 100%;
+  overflow-y: auto;
+  padding: 12px;
+  position: absolute;
+  right: 0;
+  z-index: 3;
+}
+
+.upload-grid {
+  display: grid;
+  gap: 8px;
+}
+
+/* 文件是直式圖片；多張選項是橫式，要滿版才讀得到內容。 */
+.upload-grid.count-1 {
+  grid-template-columns: minmax(0, 200px);
+  justify-content: center;
+}
+
+.upload-grid:not(.count-1) img {
+  max-height: none;
+  width: 100%;
+}
+
+.upload-grid button {
+  background: var(--primary-50);
+  border: 2px solid var(--primary-700);
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+  padding: 6px;
+}
+
+.upload-grid img {
+  margin: 0 auto 4px;
+  max-height: 150px;
+}
+
+/* 語音 */
+.voice-panel {
+  align-items: center;
+  background: var(--primary-50);
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 10px;
+}
+
+.voice-card {
+  background: var(--secondary-100);
+  border: 2px solid var(--secondary-500);
+  border-radius: 12px;
+  display: grid;
+  padding: 6px 12px;
+  text-align: center;
+  width: 100%;
+}
+
+.voice-card strong {
+  font-size: var(--text-lead);
+  line-height: 1.3;
+}
+
+.voice-card.is-nudged-card {
+  animation: shake 0.5s ease-in-out;
+}
+
+.wave {
+  align-items: center;
+  display: flex;
+  gap: 5px;
+  height: 32px;
+}
+
+.wave i {
+  animation: wave 0.9s ease-in-out infinite;
+  background: var(--primary-700);
+  border-radius: 3px;
+  height: 100%;
+  width: 6px;
+}
+
+/* 情境頁：完整的 AI App 畫面 */
+.app {
+  height: 100%;
+  isolation: isolate;
+  margin: 0 auto;
+  max-width: 560px;
+  overflow: hidden;
+  position: relative;
+}
+
+.chat-app {
+  background: var(--gray-50);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Spotlight */
+.spot-hole {
+  color: rgb(23 27 29 / 45%);
+  height: 100%;
+  inset: 0;
+  width: 100%;
+  pointer-events: none;
+  position: fixed;
+  z-index: 4;
+}
+
+.spot-tip-anchor {
+  left: 16px;
+  pointer-events: none;
+  position: fixed;
+  right: 16px;
+  z-index: 5;
+}
+
+.spot-tip {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 16px rgb(23 27 29 / 30%);
+  font-size: var(--text-lead);
+  font-weight: 700;
+  line-height: 1.4;
+  padding: 12px 16px;
+}
+
+.spot-tip.is-hint,
+.inline-tip.is-hint {
+  animation: shake 0.5s ease-in-out;
+  color: var(--red-600);
+}
+
+.spot-arrow {
+  background: var(--white);
+  bottom: -8px;
+  height: 16px;
+  margin-left: -8px;
+  position: absolute;
+  transform: rotate(45deg);
+  width: 16px;
+}
+
+.inline-tip {
+  font-size: var(--text-body);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.reply-tools {
+  background: var(--white);
+  border-radius: 12px;
+  margin-top: 8px;
+}
+
+.reply-tools .reply-actions {
+  margin-top: 0;
+}
+
+.reply-tools .inline-tip {
+  margin-top: 6px;
+}
+
+.sheet-scrim {
+  background: rgb(23 27 29 / 45%);
+  inset: 0;
+  position: absolute;
+  z-index: 2;
+}
+
+/* 完成面板 */
+.completion {
+  background: var(--white);
+  border-radius: 20px 20px 0 0;
+  bottom: 0;
+  display: grid;
+  gap: 10px;
+  left: 0;
+  max-height: 100%;
+  overflow-y: auto;
+  padding: 16px;
+  position: absolute;
+  right: 0;
+  z-index: 3;
+}
+
+.completion h1 {
+  color: var(--primary-800);
+  font-size: var(--text-key);
+  line-height: 1.3;
+  text-align: center;
+}
+
+.completion ul {
+  display: grid;
+  gap: 6px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.completion li {
+  display: flex;
+  gap: 8px;
+}
+
+.completion li .icon {
+  color: var(--primary-700);
+  flex: none;
+}
+
+.safety-note {
+  background: var(--secondary-100);
+  border-radius: 12px;
+  color: var(--secondary-800);
+  font-weight: 700;
+  padding: 8px 12px;
+}
+
+@keyframes pulse {
+  50% {
+    box-shadow: 0 0 0 8px rgb(245 186 75 / 55%);
+  }
+}
+
+@keyframes nudge {
+  50% {
+    transform: scale(1.3);
+  }
+}
+
+@keyframes shake {
+  25% {
+    transform: translateX(-6px);
+  }
+  75% {
+    transform: translateX(6px);
+  }
+}
+
+@keyframes bounce {
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes wave {
+  50% {
+    transform: scaleY(0.3);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+.composer-area {
+  background: var(--white);
+  flex: none;
+}
+
+.composer-area .attachment {
+  padding-top: 6px;
+}
+
+/* 避開手機底部的手勢列 */
+.composer,
+.upload-sheet,
+.completion {
+  padding-bottom: max(env(safe-area-inset-bottom), 24px);
+}
+
+/* 輸入框是可以點的按鈕，點了之後要看起來像準備打字 */
+.composer-input {
+  border: 2px solid transparent;
+  color: var(--gray-900);
+  display: block;
+  text-align: left;
+}
+
+.composer-input.is-target {
+  animation: pulse 1.4s ease-in-out infinite;
+  background: var(--secondary-100);
+  border-color: var(--primary-800);
+}
+
+.composer-input.is-typing {
+  background: var(--white);
+  border-color: var(--primary-700);
+}
+
+.composer-input.is-typing.is-empty::after {
+  animation: caret 1s steps(2) infinite;
+  background: var(--primary-700);
+  content: '';
+  display: inline-block;
+  height: 24px;
+  vertical-align: middle;
+  width: 2px;
+}
+
+@keyframes caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* 同時亮起 AI 回覆時，留出位置讓回覆捲到最上面，提示框才不會蓋住內容。 */
+.chat-log.has-result-tip {
+  padding-bottom: 96px;
+}
+
+.result-tip {
+  background: var(--secondary-100);
+  border-radius: 8px;
+  color: var(--secondary-800);
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  padding: 2px 8px;
+  width: fit-content;
+}
+
+/* 收音中：麥克風位置變成紅色停止鍵 */
+.round-button.is-recording {
+  background: var(--red-600);
+  border-color: var(--red-600);
+  color: var(--white);
+}

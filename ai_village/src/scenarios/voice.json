@@ -1,0 +1,55 @@
+{
+  "id": "voice",
+  "title": "開口問 AI",
+  "subtitle": "用說的就能問",
+  "icon": "mic",
+  "replies": {
+    "mrt": {
+      "headline": "搭捷運板南線，在「市政府站」下車",
+      "body": [
+        "台北市政府在信義區市府路 1 號。",
+        "從市政府站出站後，走路大約 10 分鐘就到了。"
+      ],
+      "actions": true
+    }
+  },
+  "steps": [
+    {
+      "id": "mic",
+      "type": "tap",
+      "target": "mic",
+      "hint": "請點亮起來的麥克風喔！",
+      "tip": "不會打字也沒關係！點麥克風，開口問 AI。"
+    },
+    {
+      "id": "speak",
+      "type": "voice",
+      "phrase": "台北市政府在哪個捷運站下車？",
+      "tip": "請看著字唸出來，唸完按紅色的停止鍵。",
+      "hint": "別害羞，對著手機唸出來，唸完按紅色的停止鍵！"
+    },
+    {
+      "id": "send",
+      "type": "send",
+      "reply": "mrt",
+      "hint": "請點亮起來的箭頭喔！",
+      "tip": "說完了，文字已經出現在輸入框。按箭頭送出。"
+    },
+    {
+      "id": "speaker",
+      "type": "play",
+      "audio": "/audio/voice-mrt.wav",
+      "hint": "點這個小喇叭就能聽聲音喔！",
+      "tip": "字太多眼睛痠？點小喇叭，讓 AI 唸給您聽！"
+    },
+    {
+      "id": "done",
+      "type": "done",
+      "title": "您學會用說的問 AI 了！",
+      "points": [
+        "麥克風問問題",
+        "小喇叭聽回答"
+      ]
+    }
+  ]
+}

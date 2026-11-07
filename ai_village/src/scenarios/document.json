@@ -1,0 +1,106 @@
+{
+  "id": "document",
+  "title": "看懂文件",
+  "subtitle": "表格看不懂就問",
+  "icon": "doc",
+  "replies": {
+    "star": {
+      "headline": "＊號代表必填，不填會被退件",
+      "body": [
+        "有紅色＊號的欄位一定要寫。",
+        "沒有＊號的欄位，就看您的情況決定要不要寫。"
+      ],
+      "actions": true
+    },
+    "address": {
+      "headline": "戶籍地址看身分證，通訊地址是收信的地方",
+      "body": [
+        "戶籍地址要和身分證背面一樣。",
+        "如果您住的地方不一樣，通訊地址就寫平常收得到信的地址。"
+      ],
+      "actions": true
+    },
+    "agent": {
+      "headline": "自己去辦，就不用填代理人",
+      "body": [
+        "請別人幫您送件時，才要填這一格。",
+        "實際規定要看申請單位的說明，不確定可以先問承辦人員。"
+      ],
+      "actions": true
+    }
+  },
+  "steps": [
+    {
+      "id": "plus",
+      "type": "tap",
+      "target": "plus",
+      "hint": "請點亮起來的「＋」喔！",
+      "tip": "看不懂的文件，先拍照存到相簿，個資要遮住。點「＋」傳給 AI。"
+    },
+    {
+      "id": "attach",
+      "type": "attach",
+      "pick": "file",
+      "options": [
+        {
+          "id": "form",
+          "label": "活動補助申請書",
+          "image": "/images/form-application.svg"
+        }
+      ],
+      "tip": "這裡有準備好的範例表格，點一下。"
+    },
+    {
+      "id": "input",
+      "type": "tap",
+      "target": "input",
+      "hint": "請點亮起來的輸入框喔！",
+      "tip": "問題要打在這個輸入框。先點一下。"
+    },
+    {
+      "id": "prompt",
+      "type": "prompt",
+      "pick": "issue",
+      "tip": "平常要自己打字。為了幫您省時間，這次準備好常見問題，點一個就好。",
+      "options": [
+        {
+          "id": "star",
+          "label": "表格上的紅色＊號是什麼意思？"
+        },
+        {
+          "id": "address",
+          "label": "戶籍地址跟通訊地址差在哪？"
+        },
+        {
+          "id": "agent",
+          "label": "代理人這格要填嗎？"
+        }
+      ]
+    },
+    {
+      "id": "send",
+      "type": "send",
+      "reply": "{issue}",
+      "hint": "請點亮起來的箭頭喔！",
+      "tip": "實際使用時，就是像這樣自己打字。打好後按箭頭送出。"
+    },
+    {
+      "id": "speaker",
+      "type": "play",
+      "audio": "/audio/document-{issue}.wav",
+      "hint": "點這個小喇叭就能聽聲音喔！",
+      "tip": "點小喇叭，請 AI 唸給您聽。"
+    },
+    {
+      "id": "done",
+      "type": "done",
+      "title": "您學會請 AI 看文件了！",
+      "points": [
+        "先拍照，遮住個資",
+        "點「＋」傳給 AI",
+        "問看不懂的地方",
+        "平常也可以用手機裡的 AI 工具"
+      ]
+    }
+  ]
+}

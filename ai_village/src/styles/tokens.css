@@ -1,0 +1,27 @@
+/* 色票對應 lib/util/tp_colors.dart。長者版文字與主要按鈕用 primary-700，
+   primary-500 配白字對比不足，只作裝飾。 */
+:root {
+  --primary-50: #edf8fa;
+  --primary-100: #dbf1f5;
+  --primary-200: #b4e2ea;
+  --primary-500: #5ab4c5;
+  --primary-700: #356c77;
+  --primary-800: #22474e;
+  --secondary-100: #fcf2df;
+  --secondary-500: #f5ba4b;
+  --secondary-800: #74521b;
+  --gray-50: #f1f3f4;
+  --gray-100: #e3e7e9;
+  --gray-200: #cad1d5;
+  --gray-600: #5e6d76;
+  --gray-800: #30383d;
+  --gray-900: #171b1d;
+  --red-600: #c2332f;
+  --white: #ffffff;
+
+  --text-body: 20px;
+  --text-lead: 22px;
+  --text-key: 28px;
+  --tap-size: 56px;
+  --radius: 16px;
+}

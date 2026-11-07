@@ -1,0 +1,206 @@
+{
+  "id": "travel",
+  "title": "旅遊規劃",
+  "subtitle": "AI 幫您排行程",
+  "icon": "map",
+  "prompts": {
+    "city-sight": "幫我排一天台北市區景點行程",
+    "city-fun": "幫我排一天台北市區娛樂行程",
+    "mountain-sight": "幫我排一天台北山區景點行程",
+    "mountain-fun": "幫我排一天台北山區娛樂行程"
+  },
+  "replies": {
+    "city-sight": {
+      "headline": "幫您排好台北市區景點一日遊",
+      "cards": [
+        {
+          "id": "CS-1",
+          "time": "上午",
+          "place": "龍山寺",
+          "district": "萬華區",
+          "image": "/images/places/CS-1.jpg"
+        },
+        {
+          "id": "CS-2",
+          "time": "下午",
+          "place": "中正紀念堂",
+          "district": "中正區",
+          "image": "/images/places/CS-2.jpg"
+        },
+        {
+          "id": "CS-3",
+          "time": "晚上",
+          "place": "台北101",
+          "district": "信義區",
+          "image": "/images/places/CS-3.jpg"
+        }
+      ]
+    },
+    "city-fun": {
+      "headline": "幫您排好台北市區娛樂一日遊",
+      "cards": [
+        {
+          "id": "CE-1",
+          "time": "上午",
+          "place": "華山1914文創園區",
+          "district": "中正區",
+          "image": "/images/places/CE-1.jpg"
+        },
+        {
+          "id": "CE-2",
+          "time": "下午",
+          "place": "西門町",
+          "district": "萬華區",
+          "image": "/images/places/CE-2.jpg"
+        },
+        {
+          "id": "CE-3",
+          "time": "晚上",
+          "place": "饒河街觀光夜市",
+          "district": "松山區",
+          "image": "/images/places/CE-3.jpg"
+        }
+      ]
+    },
+    "mountain-sight": {
+      "headline": "幫您排好台北山區景點一日遊",
+      "cards": [
+        {
+          "id": "MS-1",
+          "time": "上午",
+          "place": "陽明山 擎天崗",
+          "district": "士林區",
+          "image": "/images/places/MS-1.jpg"
+        },
+        {
+          "id": "MS-2",
+          "time": "下午",
+          "place": "陽明山 小油坑",
+          "district": "北投區",
+          "image": "/images/places/MS-2.jpg"
+        },
+        {
+          "id": "MS-3",
+          "time": "晚上",
+          "place": "北投溫泉博物館",
+          "district": "北投區",
+          "image": "/images/places/MS-3.jpg"
+        }
+      ]
+    },
+    "mountain-fun": {
+      "headline": "幫您排好台北山區娛樂一日遊",
+      "cards": [
+        {
+          "id": "ME-1",
+          "time": "上午",
+          "place": "臺北市立動物園",
+          "district": "文山區",
+          "image": "/images/places/ME-1.jpg"
+        },
+        {
+          "id": "ME-2",
+          "time": "下午",
+          "place": "貓空纜車",
+          "district": "文山區",
+          "image": "/images/places/ME-2.jpg"
+        },
+        {
+          "id": "ME-3",
+          "time": "晚上",
+          "place": "貓空 喝茶看夜景",
+          "district": "文山區",
+          "image": "/images/places/ME-3.jpg"
+        }
+      ]
+    }
+  },
+  "steps": [
+    {
+      "id": "input",
+      "type": "tap",
+      "target": "input",
+      "hint": "請點亮起來的輸入框喔！",
+      "tip": "想請 AI 排行程，要打在這個輸入框。先點一下。"
+    },
+    {
+      "id": "prompt",
+      "type": "prompt",
+      "pick": "plan",
+      "tip": "平常要自己打字。為了幫您省時間，這次準備好幾句話，點一句就好。",
+      "options": [
+        {
+          "id": "city-sight",
+          "label": "幫我排一天台北市區景點行程"
+        },
+        {
+          "id": "city-fun",
+          "label": "幫我排一天台北市區娛樂行程"
+        },
+        {
+          "id": "mountain-sight",
+          "label": "幫我排一天台北山區景點行程"
+        },
+        {
+          "id": "mountain-fun",
+          "label": "幫我排一天台北山區娛樂行程"
+        }
+      ]
+    },
+    {
+      "id": "send",
+      "type": "send",
+      "reply": "{plan}",
+      "hint": "請點亮起來的箭頭喔！",
+      "tip": "實際使用時，就是像這樣打字，說清楚想去哪、想做什麼。打好後按箭頭送出。"
+    },
+    {
+      "id": "input-again",
+      "type": "tap",
+      "target": "input",
+      "hint": "請點亮起來的輸入框喔！",
+      "tip": "想換地方？點這裡再問一次。",
+      "resultTip": "這是 AI 排好的行程"
+    },
+    {
+      "id": "compare",
+      "type": "prompt",
+      "text": "{plan}",
+      "flip": {
+        "pick": "plan",
+        "map": {
+          "city-sight": "mountain-sight",
+          "mountain-sight": "city-sight",
+          "city-fun": "mountain-fun",
+          "mountain-fun": "city-fun"
+        }
+      },
+      "tip": "平常就是自己改幾個字。這次幫您改好了，點這句話。"
+    },
+    {
+      "id": "send-again",
+      "type": "send",
+      "reply": "{plan}",
+      "hint": "請點亮起來的箭頭喔！",
+      "tip": "一樣按箭頭送出。"
+    },
+    {
+      "id": "like",
+      "type": "tap",
+      "target": "like",
+      "hint": "請點亮起來的讚喔！",
+      "tip": "看完了嗎？覺得不錯就按個讚。",
+      "resultTip": "換了地方，行程也不一樣了"
+    },
+    {
+      "id": "done",
+      "type": "done",
+      "title": "您學會請 AI 排行程了！",
+      "points": [
+        "說清楚想去哪、想做什麼",
+        "條件換了，答案也會換",
+        "出門前再確認開放時間"
+      ]
+    }
+  ]
+}

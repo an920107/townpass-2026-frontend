@@ -1,0 +1,76 @@
+{
+  "id": "search",
+  "title": "查資料",
+  "subtitle": "請 AI 簡單說明",
+  "icon": "search",
+  "replies": {
+    "notice": {
+      "headline": "這是繳費通知，要在本月 30 日前繳 500 元",
+      "body": [
+        "晚繳可能會有後續處理，所以要在期限內繳費。",
+        "通知上會寫繳費方式。如果有疑問，先問發通知的單位。",
+        "AI 也可能出錯。不放心就打 1999 問市政府；懷疑是詐騙就打 165。"
+      ]
+    }
+  },
+  "steps": [
+    {
+      "id": "plus",
+      "type": "tap",
+      "target": "plus",
+      "hint": "請點亮起來的「＋」喔！",
+      "tip": "收到看不懂的政府通知？點「＋」，把通知的照片傳給 AI。"
+    },
+    {
+      "id": "attach",
+      "type": "attach",
+      "pick": "file",
+      "options": [
+        {
+          "id": "notice",
+          "label": "繳款通知書",
+          "image": "/images/notice-gov.svg"
+        }
+      ],
+      "tip": "這裡有準備好的通知照片，點一下。"
+    },
+    {
+      "id": "input",
+      "type": "tap",
+      "target": "input",
+      "hint": "請點亮起來的輸入框喔！",
+      "tip": "問題要打在這個輸入框。先點一下。"
+    },
+    {
+      "id": "prompt",
+      "type": "prompt",
+      "options": [
+        {
+          "id": "simple",
+          "label": "用簡單的話解釋這份通知"
+        }
+      ],
+      "tip": "平常要自己打字。為了幫您省時間，這句話已經準備好，點一下就好。"
+    },
+    {
+      "id": "send",
+      "type": "send",
+      "reply": "notice",
+      "hint": "請點亮起來的箭頭喔！",
+      "tip": "實際使用時，就是像這樣自己打字。打好後按箭頭送出。"
+    },
+    {
+      "id": "read",
+      "type": "read"
+    },
+    {
+      "id": "done",
+      "type": "done",
+      "title": "您學會用 AI 查資料了！",
+      "points": [
+        "傳照片給 AI",
+        "請 AI 用簡單的話解釋"
+      ]
+    }
+  ]
+}
